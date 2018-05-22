@@ -159,4 +159,7 @@ def run(dataset_dir, shuffling=False):
     # dataset_utils.write_label_file(labels_to_class_names, dataset_dir)
     print('\nFinished converting the Pascal VOC dataset!')
 
-run("./wider_face")
+if __name__ == '__main__':
+    voc_dir = sys.argv[1]
+    if voc_dir != None:
+        run(voc_dir)
