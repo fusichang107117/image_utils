@@ -120,8 +120,8 @@ def _process_image(directory, name):
         y1 = int(bbox.find('ymax').text)
         cv2.rectangle(image_data, (x0, y0), (x1, y1), (255, 0, 0), 2)
 
-    cv2.imshow("disp", image_data)
-    cv2.waitKey(0)
+    # cv2.imshow("disp", image_data)
+    # cv2.waitKey(0)
     return image_data, shape, bboxes, labels_text, difficult, truncated
 
 
@@ -151,9 +151,25 @@ def run(dataset_dir, shuffling=False):
         # Open new TFRecord file.
         filename = filenames[i].strip("\n")
         image_name = filename[:-4]
-        _process_image(dataset_dir, image_name)
-        i += 1
+        image_info = _process_image(dataset_dir, image_name)
 
+        cv2.imshow("disp", image_info[0])
+        key = cv2.waitKey(0)
+        # up or left
+        print(key)
+        if key == 82 or key == 81:
+            i -= 1
+        elif key == 84 or key == 83:
+            i += 1
+        elif key == 13:
+            i += 1
+        elif key == ord('q'):
+            break
+
+        if i < 0:
+            i = 0
+
+        print(i)
     # Finally, write the labels file:
     # labels_to_class_names = dict(zip(range(len(_CLASS_NAMES)), _CLASS_NAMES))
     # dataset_utils.write_label_file(labels_to_class_names, dataset_dir)
